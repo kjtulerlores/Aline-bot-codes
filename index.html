@@ -2,134 +2,29 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aline Dashboard</title>
+    <title>Aline - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #313338; color: #dbdee1; font-family: 'gg sans', sans-serif; overflow: hidden; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        input, textarea, select { background-color: #1e1f22 !important; border: 1px solid transparent !important; color: white !important; outline: none !important; }
-        .embed-card { background-color: #2b2d31; border-left: 4px solid #5865f2; border-radius: 4px; padding: 12px 16px; margin-top: 8px; max-width: 520px; }
-        .nav-icon { width: 48px; height: 48px; background-color: #313338; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
-        .nav-icon:hover { border-radius: 16px; background-color: #5865f2; }
-    </style>
 </head>
-<body class="h-screen w-screen flex flex-col">
+<body class="h-screen w-screen bg-[#fce7f3] flex items-center justify-center font-sans">
 
-    <div id="login-screen" class="fixed inset-0 bg-[#313338] z-50 flex items-center justify-center">
-        <div class="text-center bg-[#2b2d31] p-12 rounded-2xl shadow-2xl border border-white/5 w-96">
-            <div class="text-6xl mb-4">🎀</div>
-            <h1 class="text-2xl font-bold mb-2 text-white text-center">Aline Dashboard</h1>
-            <p class="text-gray-400 mb-8 text-sm">Conecte o bot para gerenciar seus servidores.</p>
-            
-            <a href="https://discord.com/oauth2/authorize?client_id=1487810697424277666&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fkjtulerlores.github.io%2FAline-bot-codes%2Findex.html&scope=identify+guilds+bot" 
-               class="bg-[#5865f2] w-full block py-3 rounded font-bold text-white shadow-lg hover:brightness-110 transition text-center">
-                Entrar com Discord
-            </a>
-        </div>
-    </div>
-
-    <div id="main-dashboard" class="flex flex-1 overflow-hidden hidden">
-        <aside class="w-20 bg-[#1e1f22] flex flex-col items-center py-4 space-y-4 flex-none border-r border-black/20">
-            <div class="nav-icon">🎀</div>
-            <div class="nav-icon">📂</div>
-        </aside>
-
-        <div class="w-[450px] bg-[#2b2d31] border-r border-white/5 flex flex-col flex-none no-scrollbar">
-            
-            <div class="p-4 border-b border-black/20">
-                <h3 class="text-xs font-bold text-[#949ba4] uppercase mb-3">Servidor Selecionado</h3>
-                <div class="flex items-center gap-4">
-                    <div class="w-24 h-24 bg-[#1e1f22] rounded-xl border-2 border-[#5865f2] flex flex-col items-center justify-center p-2 text-center shadow-lg">
-                        <img id="guild-img" src="https://cdn.discordapp.com/embed/avatars/4.png" class="w-12 h-12 rounded-full mb-1">
-                        <span id="guild-name" class="text-[10px] text-white font-bold truncate w-full italic">Aline Server</span>
-                    </div>
-
-                    <div class="flex-1 space-y-2">
-                        <label class="text-[11px] font-bold text-[#949ba4] uppercase">Canais Disponíveis</label>
-                        <select id="select-channel" class="w-full p-2.5 rounded text-sm bg-[#1e1f22] text-white">
-                            <option># chat-geral</option>
-                            <option># anúncios</option>
-                            <option># comandos-aline</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex-1 overflow-y-auto p-4 space-y-6 no-scrollbar pb-10">
-                <section>
-                    <h3 class="text-xs font-bold text-[#949ba4] uppercase mb-2">Configuração da Mensagem</h3>
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="text" id="in-name" placeholder="Nome da Aline" oninput="update()" class="p-2 rounded text-sm">
-                        <input type="text" id="in-avatar" placeholder="Avatar URL" oninput="update()" class="p-2 rounded text-sm">
-                    </div>
-                    <textarea id="in-content" placeholder="Texto fora do embed..." oninput="update()" class="w-full p-2 rounded text-sm h-20 resize-none"></textarea>
-                </section>
-
-                <section class="bg-black/20 p-3 rounded-lg space-y-3">
-                    <input type="text" id="in-title" placeholder="Título do Embed" oninput="update()" class="w-full p-2 rounded text-sm font-bold">
-                    <textarea id="in-desc" placeholder="Descrição do Embed" oninput="update()" class="w-full p-2 rounded text-sm h-32 resize-none"></textarea>
-                    <div class="flex gap-2">
-                        <input type="color" id="in-color" value="#5865f2" oninput="update()" class="w-12 h-8 rounded bg-transparent cursor-pointer">
-                        <input type="text" id="in-thumb" placeholder="Thumbnail URL" oninput="update()" class="flex-1 p-1.5 rounded text-xs">
-                    </div>
-                </section>
-
-                <button class="bg-[#23a559] w-full py-3 rounded font-bold text-white hover:brightness-110 transition shadow-lg">POSTAR NO DISCORD 🚀</button>
-            </div>
-        </div>
-
-        <main class="flex-1 bg-[#313338] p-10 flex justify-center items-start overflow-y-auto">
-            <div class="flex w-full max-w-[600px] gap-4">
-                <img id="p-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" class="w-10 h-10 rounded-full flex-none mt-1">
-                <div class="flex-1">
-                    <div class="flex items-center gap-2">
-                        <span id="p-name" class="font-bold text-white">Aline</span>
-                        <span class="bg-[#5865f2] text-[10px] px-1.5 py-0.5 rounded font-bold text-white">BOT</span>
-                    </div>
-                    <div id="p-content" class="text-gray-200 mt-1 whitespace-pre-wrap"></div>
-                    <div id="p-embed" class="embed-card hidden">
-                        <div class="relative">
-                            <img id="p-thumb" class="absolute top-0 right-0 w-16 h-16 rounded object-cover hidden">
-                            <div id="p-title" class="text-white font-bold text-base hover:underline cursor-pointer"></div>
-                            <div id="p-desc" class="text-sm text-gray-300 mt-2 whitespace-pre-wrap"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <div class="text-center bg-white p-12 rounded-3xl shadow-xl border-4 border-pink-200 w-96">
+        <div class="text-6xl mb-4">🌸</div>
+        <h1 class="text-3xl font-bold mb-2 text-pink-600">Aline Bot</h1>
+        <p class="text-pink-400 mb-8 text-sm font-medium">Conecte sua conta para gerenciar seus servidores com estilo.</p>
+        
+        <a href="https://discord.com/oauth2/authorize?client_id=1487810697424277666&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fkjtulerlores.github.io%2FAline-bot-codes%2Findex.html&scope=identify+guilds+bot" 
+           class="bg-pink-500 w-full block py-3 rounded-full font-bold text-white shadow-lg hover:bg-pink-600 transition text-center tracking-wide">
+            Entrar com Discord
+        </a>
+        
+        <p class="mt-6 text-[10px] text-pink-300 uppercase tracking-widest font-bold">Aline Pink Edition</p>
     </div>
 
     <script>
-        window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('code')) {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('main-dashboard').classList.remove('hidden');
-                window.history.replaceState({}, document.title, window.location.pathname);
-                update(); 
-            }
-        };
-
-        function update() {
-            document.getElementById('p-name').innerText = document.getElementById('in-name').value || "Aline";
-            document.getElementById('p-avatar').src = document.getElementById('in-avatar').value || "https://cdn.discordapp.com/embed/avatars/0.png";
-            document.getElementById('p-content').innerText = document.getElementById('in-content').value;
-
-            const title = document.getElementById('in-title').value;
-            const desc = document.getElementById('in-desc').value;
-            const color = document.getElementById('in-color').value;
-            const thumb = document.getElementById('in-thumb').value;
-            const embed = document.getElementById('p-embed');
-
-            if (title || desc || thumb) {
-                embed.classList.remove('hidden');
-                embed.style.borderLeftColor = color;
-                document.getElementById('p-title').innerText = title;
-                document.getElementById('p-desc').innerText = desc;
-                const pThumb = document.getElementById('p-thumb');
-                if(thumb) { pThumb.src = thumb; pThumb.classList.remove('hidden'); } else { pThumb.classList.add('hidden'); }
-            } else { embed.classList.add('hidden'); }
+        // Se o usuário já voltou do Discord (tem "code" na URL), manda para a dashboard
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('code')) {
+            window.location.href = "dashboard.html" + window.location.search;
         }
     </script>
 </body>
