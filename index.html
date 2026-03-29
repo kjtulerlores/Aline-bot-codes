@@ -5,23 +5,19 @@
     <title>Aline - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="h-screen w-screen bg-[#fce7f3] flex items-center justify-center font-sans">
-
-    <div class="text-center bg-white p-12 rounded-3xl shadow-xl border-4 border-pink-200 w-96">
-        <div class="text-6xl mb-4">🌸</div>
-        <h1 class="text-3xl font-bold mb-2 text-pink-600">Aline Bot</h1>
-        <p class="text-pink-400 mb-8 text-sm font-medium">Conecte sua conta para gerenciar seus servidores com estilo.</p>
+<body class="h-screen bg-[#fff1f2] flex items-center justify-center font-sans">
+    <div class="text-center bg-white p-12 rounded-[3rem] shadow-2xl border-b-8 border-pink-200 w-96">
+        <div class="text-7xl mb-6">🌸</div>
+        <h1 class="text-4xl font-black mb-2 text-pink-600 italic tracking-tighter">Aline Bot</h1>
+        <p class="text-pink-400 mb-10 text-sm font-bold italic">Painel de Controle Rosa 🎀</p>
         
         <a href="https://discord.com/oauth2/authorize?client_id=1487810697424277666&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fkjtulerlores.github.io%2FAline-bot-codes%2Findex.html&scope=identify+guilds+bot" 
-           class="bg-pink-500 w-full block py-3 rounded-full font-bold text-white shadow-lg hover:bg-pink-600 transition text-center tracking-wide">
+           class="bg-pink-500 w-full block py-4 rounded-2xl font-black text-white shadow-[0_5px_0_rgb(219,39,119)] hover:shadow-none hover:translate-y-1 transition-all text-center uppercase tracking-widest">
             Entrar com Discord
         </a>
-        
-        <p class="mt-6 text-[10px] text-pink-300 uppercase tracking-widest font-bold">Aline Pink Edition</p>
     </div>
 
     <script>
-        // Se o usuário já voltou do Discord (tem "code" na URL), manda para a dashboard
         const params = new URLSearchParams(window.location.search);
         if (params.get('code')) {
             window.location.href = "dashboard.html" + window.location.search;
