@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aline Dashboard - Embed Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bg-sidebar': '#1e1f22',
+                        'bg-editor': '#2b2d31',
+                        'bg-chat': '#313338',
+                        'discord-blurple': '#5865f2',
+                        'discord-green': '#23a559',
+                        'text-muted': '#949ba4',
+                        'border-sep': 'rgba(78, 80, 88, 0.48)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #313338; color: #dbdee1; font-family: 'gg sans', sans-serif; overflow: hidden; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        input, textarea, select { 
+            background-color: #1e1f22 !important; 
+            border: 1px solid transparent !important; 
+            color: white !important; 
+            outline: none !important;
+            transition: border 0.2s;
+        }
+        input:focus, textarea:focus { border-color: #5865f2 !important; }
+
+        .embed-card {
+            background-color: #2b2d31;
+            border-left: 4px solid #5865f2;
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin-top: 8px;
+            max-width: 520px;
+        }
+        
+        .nav-icon {
+            width: 48px; height: 48px;
+            background-color: #313338;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 20px;
+        }
+        .nav-icon:hover { border-radius: 16px; background-color: #5865f2; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col">
+
+    <div id="login-screen" class="fixed inset-0 bg-bg-chat z-50 flex items-center justify-center">
+        <div class="text-center bg-bg-editor p-12 rounded-2xl shadow-2xl border border-white/5 w-96">
+            <div class="text-6xl mb-4">🎀</div>
+            <h1 class="text-2xl font-bold mb-2 text-white">Aline Bot</h1>
+            <p class="text-gray-400 mb-8 text-sm">Conecte sua conta para gerenciar seus servidores.</p>
+            
+            <a href="https://discord.com/oauth2/authorize?client_id=1487810697424277666&response_type=code&redirect_uri=file%3A%2F%2F%2FC%3A%2FUsers%2Fktule%2FDownloads%2Findex.html&scope=guilds" 
+               class="bg-discord-blurple w-full block py-3 rounded font-bold text-white shadow-lg hover:brightness-110 transition">
+                Entrar com Discord
+            </a>
+        </div>
+    </div>
+
+    <div id="main-dashboard" class="flex flex-1 overflow-hidden hidden">
+        
+        <aside class="w-20 bg-bg-sidebar flex flex-col items-center py-4 space-y-4 border-r border-black/20 flex-none">
+            <div class="nav-icon" title="Mensagens">💬</div>
+            <div class="nav-icon" title="Canais">📂</div>
+            <div class="nav-icon" title="Configurações">⚙️</div>
+        </aside>
+
+        <div class="w-[450px] bg-bg-editor border-r border-border-sep flex flex-col flex-none no-scrollbar">
+            
+            <div class="p-4 border-b border-black/20">
+                <h3 class="text-xs font-bold text-text-muted uppercase mb-3">Destino da Mensagem</h3>
+                <div class="flex items-center space-x-4">
+                    <div class="w-20 h-20 bg-bg-sidebar rounded-xl border-2 border-discord-blurple flex flex-col items-center justify-center p-2 text-center shadow-inner">
+                        <img id="guild-img" src="https://cdn.discordapp.com/embed/avatars/0.png" class="w-10 h-10 rounded-full mb-1 object-cover">
+                        <span id="guild-name" class="text-[9px] text-white font-bold truncate w-full">Meu Servidor</span>
+                    </div>
+
+                    <div class="flex-1 space-y-2">
+                        <label class="text-[11px] font-bold text-text-muted uppercase">Canal de Texto</label>
+                        <select id="select-channel" class="w-full p-2 rounded text-sm cursor-pointer">
+                            <option value="1"># chat-geral</option>
+                            <option value="2"># anúncios</option>
+                            <option value="3"># comandos-bot</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4 space-y-6 no-scrollbar pb-10">
+                
+                <section>
+                    <h3 class="text-xs font-bold text-text-muted uppercase mb-2">Perfil do Bot</h3>
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <input type="text" id="in-name" placeholder="Nome (Aline)" oninput="update()" class="p-2 rounded text-sm">
+                        <input type="text" id="in-avatar" placeholder="Avatar URL" oninput="update()" class="p-2 rounded text-sm">
+                    </div>
+                    <textarea id="in-content" placeholder="Mensagem de texto..." oninput="update()" class="w-full p-2 rounded text-sm h-20 resize-none"></textarea>
+                </section>
+
+                <section class="bg-black/10 p-3 rounded-lg space-y-3">
+                    <h3 class="text-xs font-bold text-white border-b border-white/5 pb-2">CONTEÚDO DO EMBED</h3>
+                    <input type="text" id="in-title" placeholder="Título do Embed" oninput="update()" class="w-full p-2 rounded text-sm font-bold">
+                    <textarea id="in-desc" placeholder="Descrição do Embed" oninput="update()" class="w-full p-2 rounded text-sm h-32 resize-none"></textarea>
+                    
+                    <div class="flex gap-3">
+                        <div class="flex-1">
+                            <label class="text-[10px] text-text-muted uppercase">Cor</label>
+                            <input type="color" id="in-color" value="#5865f2" oninput="update()" class="w-full h-8 rounded p-0 bg-transparent">
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-[10px] text-text-muted uppercase">Thumbnail URL</label>
+                            <input type="text" id="in-thumb" placeholder="https://..." oninput="update()" class="w-full p-1.5 rounded text-xs">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3">
+                    <input type="text" id="in-image" placeholder="URL da Imagem Principal" oninput="update()" class="w-full p-2 rounded text-sm">
+                    <input type="text" id="in-footer" placeholder="Texto do Rodapé" oninput="update()" class="w-full p-2 rounded text-sm">
+                </section>
+
+                <button class="bg-discord-green w-full py-3 rounded font-bold text-white hover:brightness-110 transition shadow-lg">ENVIAR AGORA 🚀</button>
+            </div>
+        </div>
+
+        <main class="flex-1 bg-bg-chat p-10 flex justify-center items-start overflow-y-auto">
+            <div class="flex w-full max-w-[600px] gap-4">
+                <img id="p-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" class="w-10 h-10 rounded-full flex-none mt-1">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                        <span id="p-name" class="font-bold text-white">Aline</span>
+                        <span class="bg-discord-blurple text-[10px] px-1.5 py-0.5 rounded font-bold text-white">BOT</span>
+                        <span class="text-xs text-text-muted">Hoje às 12:45</span>
+                    </div>
+                    <div id="p-content" class="text-gray-200 mt-1 whitespace-pre-wrap"></div>
+                    
+                    <div id="p-embed" class="embed-card hidden">
+                        <div class="relative">
+                            <img id="p-thumb" class="absolute top-0 right-0 w-16 h-16 rounded object-cover hidden">
+                            <div id="p-title" class="text-white font-bold text-base hover:underline cursor-pointer"></div>
+                            <div id="p-desc" class="text-sm text-gray-300 mt-2 whitespace-pre-wrap"></div>
+                        </div>
+                        <img id="p-main-img" class="w-full rounded-lg mt-3 object-cover hidden">
+                        <div id="p-footer" class="text-[11px] text-text-muted mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // LÓGICA DE LOGIN (IDENTIFICA O RETORNO DO DISCORD)
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('code')) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-dashboard').classList.remove('hidden');
+                // Limpa a URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+                update();
+            }
+        };
+
+        // ATUALIZAÇÃO DO PREVIEW
+        function update() {
+            // Perfil
+            document.getElementById('p-name').innerText = document.getElementById('in-name').value || "Aline";
+            document.getElementById('p-avatar').src = document.getElementById('in-avatar').value || "https://cdn.discordapp.com/embed/avatars/0.png";
+            document.getElementById('p-content').innerText = document.getElementById('in-content').value;
+
+            // Embed
+            const title = document.getElementById('in-title').value;
+            const desc = document.getElementById('in-desc').value;
+            const color = document.getElementById('in-color').value;
+            const thumb = document.getElementById('in-thumb').value;
+            const image = document.getElementById('in-image').value;
+            const footer = document.getElementById('in-footer').value;
+
+            const embed = document.getElementById('p-embed');
+
+            if (title || desc || thumb || image || footer) {
+                embed.classList.remove('hidden');
+                embed.style.borderLeftColor = color;
+                document.getElementById('p-title').innerText = title;
+                document.getElementById('p-desc').innerText = desc;
+
+                const pThumb = document.getElementById('p-thumb');
+                if(thumb) { pThumb.src = thumb; pThumb.classList.remove('hidden'); } else { pThumb.classList.add('hidden'); }
+
+                const pImage = document.getElementById('p-main-img');
+                if(image) { pImage.src = image; pImage.classList.remove('hidden'); } else { pImage.classList.add('hidden'); }
+
+                document.getElementById('p-footer').innerText = footer;
+            } else {
+                embed.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
