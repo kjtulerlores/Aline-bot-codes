@@ -25,32 +25,10 @@
     <style>
         body { background-color: #313338; color: #dbdee1; font-family: 'gg sans', sans-serif; overflow: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        input, textarea, select { 
-            background-color: #1e1f22 !important; 
-            border: 1px solid transparent !important; 
-            color: white !important; 
-            outline: none !important;
-            transition: border 0.2s;
-        }
+        input, textarea, select { background-color: #1e1f22 !important; border: 1px solid transparent !important; color: white !important; outline: none !important; transition: border 0.2s; }
         input:focus, textarea:focus { border-color: #5865f2 !important; }
-
-        .embed-card {
-            background-color: #2b2d31;
-            border-left: 4px solid #5865f2;
-            border-radius: 4px;
-            padding: 12px 16px;
-            margin-top: 8px;
-            max-width: 520px;
-        }
-        
-        .nav-icon {
-            width: 48px; height: 48px;
-            background-color: #313338;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s; font-size: 20px;
-        }
+        .embed-card { background-color: #2b2d31; border-left: 4px solid #5865f2; border-radius: 4px; padding: 12px 16px; margin-top: 8px; max-width: 520px; }
+        .nav-icon { width: 48px; height: 48px; background-color: #313338; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 20px; }
         .nav-icon:hover { border-radius: 16px; background-color: #5865f2; }
     </style>
 </head>
@@ -60,12 +38,13 @@
         <div class="text-center bg-bg-editor p-12 rounded-2xl shadow-2xl border border-white/5 w-96">
             <div class="text-6xl mb-4">🎀</div>
             <h1 class="text-2xl font-bold mb-2 text-white">Aline Bot</h1>
-            <p class="text-gray-400 mb-8 text-sm">Conecte sua conta para gerenciar seus servidores.</p>
+            <p class="text-gray-400 mb-8 text-sm">Conecte sua conta para gerenciar seus servidores e enviar embeds.</p>
             
-            <a href="https://discord.com/oauth2/authorize?client_id=1487810697424277666&response_type=code&redirect_uri=file%3A%2F%2F%2FC%3A%2FUsers%2Fktule%2FDownloads%2Findex.html&scope=guilds" 
+            <a href="https://discord.com/oauth2/authorize?client_id=1487810697424277666&response_type=code&redirect_uri=https%3A%2F%2Fkjtulerlores.github.io%2FAline-bot-codes%2Findex.html&scope=guilds" 
                class="bg-discord-blurple w-full block py-3 rounded font-bold text-white shadow-lg hover:brightness-110 transition">
                 Entrar com Discord
             </a>
+            <p class="mt-4 text-[10px] text-text-muted uppercase tracking-widest">v2.0 Beta</p>
         </div>
     </div>
 
@@ -92,21 +71,19 @@
                         <select id="select-channel" class="w-full p-2 rounded text-sm cursor-pointer">
                             <option value="1"># chat-geral</option>
                             <option value="2"># anúncios</option>
-                            <option value="3"># comandos-bot</option>
                         </select>
                     </div>
                 </div>
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 space-y-6 no-scrollbar pb-10">
-                
                 <section>
                     <h3 class="text-xs font-bold text-text-muted uppercase mb-2">Perfil do Bot</h3>
                     <div class="grid grid-cols-2 gap-2 mb-2">
                         <input type="text" id="in-name" placeholder="Nome (Aline)" oninput="update()" class="p-2 rounded text-sm">
                         <input type="text" id="in-avatar" placeholder="Avatar URL" oninput="update()" class="p-2 rounded text-sm">
                     </div>
-                    <textarea id="in-content" placeholder="Mensagem de texto..." oninput="update()" class="w-full p-2 rounded text-sm h-20 resize-none"></textarea>
+                    <textarea id="in-content" placeholder="Mensagem de texto fora do embed..." oninput="update()" class="w-full p-2 rounded text-sm h-20 resize-none"></textarea>
                 </section>
 
                 <section class="bg-black/10 p-3 rounded-lg space-y-3">
@@ -115,7 +92,7 @@
                     <textarea id="in-desc" placeholder="Descrição do Embed" oninput="update()" class="w-full p-2 rounded text-sm h-32 resize-none"></textarea>
                     
                     <div class="flex gap-3">
-                        <div class="flex-1">
+                        <div class="flex-1 text-center">
                             <label class="text-[10px] text-text-muted uppercase">Cor</label>
                             <input type="color" id="in-color" value="#5865f2" oninput="update()" class="w-full h-8 rounded p-0 bg-transparent">
                         </div>
@@ -161,26 +138,24 @@
     </div>
 
     <script>
-        // LÓGICA DE LOGIN (IDENTIFICA O RETORNO DO DISCORD)
+        // LÓGICA DE DETECÇÃO DE LOGIN
         window.onload = () => {
             const params = new URLSearchParams(window.location.search);
+            // Se o Discord devolver o 'code', o usuário logou!
             if (params.get('code')) {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('main-dashboard').classList.remove('hidden');
-                // Limpa a URL
+                // Limpa a URL para ficar limpa
                 window.history.replaceState({}, document.title, window.location.pathname);
-                update();
+                update(); 
             }
         };
 
-        // ATUALIZAÇÃO DO PREVIEW
         function update() {
-            // Perfil
             document.getElementById('p-name').innerText = document.getElementById('in-name').value || "Aline";
             document.getElementById('p-avatar').src = document.getElementById('in-avatar').value || "https://cdn.discordapp.com/embed/avatars/0.png";
             document.getElementById('p-content').innerText = document.getElementById('in-content').value;
 
-            // Embed
             const title = document.getElementById('in-title').value;
             const desc = document.getElementById('in-desc').value;
             const color = document.getElementById('in-color').value;
@@ -195,17 +170,12 @@
                 embed.style.borderLeftColor = color;
                 document.getElementById('p-title').innerText = title;
                 document.getElementById('p-desc').innerText = desc;
-
                 const pThumb = document.getElementById('p-thumb');
                 if(thumb) { pThumb.src = thumb; pThumb.classList.remove('hidden'); } else { pThumb.classList.add('hidden'); }
-
                 const pImage = document.getElementById('p-main-img');
                 if(image) { pImage.src = image; pImage.classList.remove('hidden'); } else { pImage.classList.add('hidden'); }
-
                 document.getElementById('p-footer').innerText = footer;
-            } else {
-                embed.classList.add('hidden');
-            }
+            } else { embed.classList.add('hidden'); }
         }
     </script>
 </body>
