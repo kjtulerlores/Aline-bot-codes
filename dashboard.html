@@ -5,105 +5,62 @@
     <title>Aline Dashboard - Rosa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #fff1f2; color: #831843; font-family: 'gg sans', sans-serif; overflow: hidden; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        input, textarea, select { background-color: #ffffff !important; border: 2px solid #fbcfe8 !important; color: #be185d !important; outline: none !important; }
-        input:focus, textarea:focus { border-color: #f472b6 !important; }
-        .embed-card { background-color: #ffffff; border-left: 4px solid #f472b6; border-radius: 8px; padding: 12px 16px; margin-top: 8px; max-width: 520px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        body { background-color: #fff1f2; color: #831843; }
+        input, textarea, select { background-color: white !important; border: 2px solid #fbcfe8 !important; color: #db2777 !important; outline: none !important; }
+        .embed-card { background-color: white; border-left: 6px solid #f472b6; border-radius: 12px; padding: 16px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col">
+<body class="h-screen flex overflow-hidden">
 
-    <div id="main-dashboard" class="flex flex-1 overflow-hidden">
-        <aside class="w-20 bg-pink-600 flex flex-col items-center py-4 space-y-4 flex-none shadow-inner">
-            <div class="w-12 h-12 bg-pink-400 rounded-2xl flex items-center justify-center text-white text-xl shadow-lg">🎀</div>
-            <div class="w-12 h-12 hover:bg-pink-500 rounded-2xl flex items-center justify-center text-white text-xl transition cursor-pointer">📂</div>
-        </aside>
+    <aside class="w-20 bg-pink-500 flex flex-col items-center py-6 gap-6 shadow-inner flex-none">
+        <div class="w-12 h-12 bg-pink-300 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white">🎀</div>
+    </aside>
 
-        <div class="w-[450px] bg-pink-50 border-r border-pink-100 flex flex-col flex-none no-scrollbar">
-            
-            <div class="p-4 border-b border-pink-100">
-                <h3 class="text-xs font-bold text-pink-400 uppercase mb-3 tracking-widest">Servidor e Canal</h3>
-                <div class="flex items-center gap-4">
-                    <div class="w-24 h-24 bg-white rounded-2xl border-2 border-pink-300 flex flex-col items-center justify-center p-2 text-center shadow-md">
-                        <img id="guild-img" src="https://cdn.discordapp.com/embed/avatars/4.png" class="w-12 h-12 rounded-full mb-1 border-2 border-pink-100">
-                        <span id="guild-name" class="text-[10px] text-pink-600 font-bold truncate w-full">Meu Server</span>
-                    </div>
-
-                    <div class="flex-1 space-y-2">
-                        <label class="text-[11px] font-bold text-pink-400 uppercase">Enviar para:</label>
-                        <select id="select-channel" class="w-full p-2.5 rounded-lg text-sm font-medium">
-                            <option># chat-geral</option>
-                            <option># novidades-rosa</option>
-                        </select>
-                    </div>
-                </div>
+    <div class="w-[450px] bg-pink-50/50 p-6 border-r border-pink-100 overflow-y-auto">
+        <h2 class="text-pink-600 font-black text-2xl mb-6 italic italic uppercase">Editor Aline</h2>
+        
+        <div class="space-y-4">
+            <div class="bg-white p-4 rounded-3xl border-2 border-pink-100 shadow-sm">
+                <label class="text-[10px] font-black text-pink-300 uppercase">Selecione o Canal</label>
+                <select class="w-full mt-1 p-2 rounded-xl text-sm font-bold">
+                    <option># chat-geral-rosa 🌸</option>
+                </select>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-4 space-y-6 no-scrollbar pb-10">
-                <section>
-                    <h3 class="text-xs font-bold text-pink-400 uppercase mb-2">Perfil</h3>
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="text" id="in-name" placeholder="Nome da Aline" oninput="update()" class="p-2 rounded-lg text-sm">
-                        <input type="text" id="in-avatar" placeholder="Avatar URL" oninput="update()" class="p-2 rounded-lg text-sm">
-                    </div>
-                    <textarea id="in-content" placeholder="Texto da mensagem..." oninput="update()" class="w-full p-2 rounded-lg text-sm h-20 resize-none"></textarea>
-                </section>
+            <input type="text" id="in-name" placeholder="Nome do Bot" oninput="update()" class="w-full p-4 rounded-3xl text-sm font-bold shadow-sm">
+            <textarea id="in-desc" placeholder="Mensagem do seu embed..." oninput="update()" class="w-full p-4 rounded-3xl text-sm h-40 resize-none font-bold shadow-sm"></textarea>
+            
+            <div class="flex gap-4">
+                <input type="color" id="in-color" value="#f472b6" oninput="update()" class="w-24 h-14 rounded-2xl cursor-pointer">
+                <input type="text" id="in-thumb" placeholder="Thumbnail URL" oninput="update()" class="flex-1 p-4 rounded-3xl text-sm font-bold shadow-sm">
+            </div>
 
-                <section class="bg-pink-100/50 p-4 rounded-2xl space-y-3">
-                    <h3 class="text-xs font-bold text-pink-600 uppercase mb-1">Conteúdo do Embed</h3>
-                    <input type="text" id="in-title" placeholder="Título" oninput="update()" class="w-full p-2 rounded-lg text-sm font-bold">
-                    <textarea id="in-desc" placeholder="Descrição..." oninput="update()" class="w-full p-2 rounded-lg text-sm h-32 resize-none"></textarea>
-                    <div class="flex gap-2">
-                        <input type="color" id="in-color" value="#f472b6" oninput="update()" class="w-12 h-10 rounded-lg bg-transparent cursor-pointer">
-                        <input type="text" id="in-thumb" placeholder="Thumbnail URL" oninput="update()" class="flex-1 p-2 rounded-lg text-xs">
-                    </div>
-                </section>
+            <button class="w-full bg-pink-600 py-5 rounded-3xl font-black text-white shadow-xl hover:brightness-110 active:scale-95 transition-all text-xl">ENVIAR AGORA 🌸</button>
+        </div>
+    </div>
 
-                <button class="bg-pink-500 w-full py-4 rounded-2xl font-bold text-white hover:bg-pink-600 transition shadow-lg active:scale-95">POSTAR NO DISCORD 🌸</button>
+    <main class="flex-1 p-10 flex justify-center items-start bg-white/50">
+        <div class="w-full max-w-lg flex gap-4">
+            <div class="w-12 h-12 bg-pink-200 rounded-full flex-none shadow-md border-2 border-white"></div>
+            <div class="flex-1">
+                <span id="p-name" class="font-black text-pink-600 italic text-lg">Aline</span>
+                <div id="p-embed" class="embed-card mt-2 hidden">
+                    <div id="p-desc" class="text-pink-800 text-sm font-bold italic leading-relaxed"></div>
+                </div>
             </div>
         </div>
-
-        <main class="flex-1 bg-white p-10 flex justify-center items-start overflow-y-auto">
-            <div class="flex w-full max-w-[600px] gap-4">
-                <img id="p-avatar" src="https://cdn.discordapp.com/embed/avatars/4.png" class="w-10 h-10 rounded-full flex-none mt-1 shadow-sm">
-                <div class="flex-1">
-                    <div class="flex items-center gap-2">
-                        <span id="p-name" class="font-bold text-pink-900">Aline</span>
-                        <span class="bg-pink-500 text-[10px] px-1.5 py-0.5 rounded font-bold text-white">BOT</span>
-                    </div>
-                    <div id="p-content" class="text-pink-800 mt-1 whitespace-pre-wrap"></div>
-                    <div id="p-embed" class="embed-card hidden">
-                        <div class="relative">
-                            <img id="p-thumb" class="absolute top-0 right-0 w-16 h-16 rounded-lg object-cover hidden">
-                            <div id="p-title" class="text-pink-600 font-bold text-base hover:underline cursor-pointer"></div>
-                            <div id="p-desc" class="text-pink-700 mt-2 text-sm whitespace-pre-wrap"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+    </main>
 
     <script>
         function update() {
-            document.getElementById('p-name').innerText = document.getElementById('in-name').value || "Aline";
-            document.getElementById('p-avatar').src = document.getElementById('in-avatar').value || "https://cdn.discordapp.com/embed/avatars/4.png";
-            document.getElementById('p-content').innerText = document.getElementById('in-content').value;
-
-            const title = document.getElementById('in-title').value;
             const desc = document.getElementById('in-desc').value;
-            const color = document.getElementById('in-color').value;
-            const thumb = document.getElementById('in-thumb').value;
             const embed = document.getElementById('p-embed');
-
-            if (title || desc || thumb) {
+            document.getElementById('p-name').innerText = document.getElementById('in-name').value || "Aline";
+            
+            if (desc) {
                 embed.classList.remove('hidden');
-                embed.style.borderLeftColor = color;
-                document.getElementById('p-title').innerText = title;
+                embed.style.borderLeftColor = document.getElementById('in-color').value;
                 document.getElementById('p-desc').innerText = desc;
-                const pThumb = document.getElementById('p-thumb');
-                if(thumb) { pThumb.src = thumb; pThumb.classList.remove('hidden'); } else { pThumb.classList.add('hidden'); }
             } else { embed.classList.add('hidden'); }
         }
     </script>
